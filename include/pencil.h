@@ -17,10 +17,12 @@ class pencil {
     ~pencil() = default;
 
     template <typename... T>
-    void category(std::string const& label, T const&... items);
+    void category(std::string const& label, T const&... items) {
+        (void) (int [sizeof...(T)]) { (categorise(label, items), 0)... }; }
 
     template <typename... T>
-    void describe(TObject* const object, T const&... adjectives);
+    void describe(TObject* const object, T const&... adjectives) {
+        (void) (int [sizeof...(T)]) { (mark(object, adjectives), 0)... }; }
 
     void set_binary(std::string const& label);
 

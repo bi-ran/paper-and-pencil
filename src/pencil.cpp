@@ -20,16 +20,6 @@ static const std::vector<int32_t> colours = {
 static const std::vector<int32_t> solid = { 20, 21, 22, 23, 29, 41 };
 static const std::vector<int32_t> open  = { 24, 25, 26, 32, 30, 40 };
 
-template <typename... T>
-void pencil::category(std::string const& label, T const&... items) {
-    (void) (int [sizeof...(T)]) { (categorise(label, items), 0)... };
-}
-
-template <typename... T>
-void pencil::describe(TObject* const object, T const&... adjectives) {
-    (void) (int [sizeof...(T)]) { (mark(object, adjectives), 0)... };
-}
-
 void pencil::set_binary(std::string const& label) {
     binary = categories[label][0];
 }

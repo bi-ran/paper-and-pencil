@@ -42,17 +42,20 @@ class paper {
     void stack(int64_t index, TObject* const object);
 
     template <typename... T>
-    void stack(int64_t index, TObject* const object, T const&... adjectives);
+    void stack(int64_t index, TObject* const object, T const&... adjectives) {
+        stack(index, object); _pencil->describe(object, adjectives...); }
 
     void add(TObject* const object);
 
     template <typename... T>
-    void add(TObject* const object, T const&... adjectives);
+    void add(TObject* const object, T const&... adjectives) {
+        add(object); _pencil->describe(object, adjectives...); }
 
     void stack(TObject* const object);
 
     template <typename... T>
-    void stack(TObject* const object, T const&... adjectives);
+    void stack(TObject* const object, T const&... adjectives) {
+        stack(object); _pencil->describe(object, adjectives...); }
 
     void divide(int64_t cols, int64_t rows);
 

@@ -10,32 +10,13 @@ void paper::stack(int64_t index, TObject* const object) {
     indices.push_back(index);
 }
 
-template <typename... T>
-void paper::stack(int64_t index, TObject* const object,
-                  T const&... adjectives) {
-    stack(index, object);
-    _pencil->describe(object, adjectives...);
-}
-
 void paper::add(TObject* const object) {
     add();
     stack(_size, object);
 }
 
-template <typename... T>
-void paper::add(TObject* const object, T const&... adjectives) {
-    add(object);
-    _pencil->describe(object, adjectives...);
-}
-
 void paper::stack(TObject* const object) {
     stack(_size, object);
-}
-
-template <typename... T>
-void paper::stack(TObject* const object, T const&... adjectives) {
-    stack(object);
-    _pencil->describe(object, adjectives...);
 }
 
 void paper::divide(int64_t cols, int64_t rows) {
