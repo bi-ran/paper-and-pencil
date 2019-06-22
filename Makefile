@@ -8,9 +8,9 @@ SRCDIR = ./src
 
 LIBCONF = libpp.a
 
-SRCS = $(wildcard $(SRCDIR)/*.cpp)
-OBJS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRCS))
-DEPS = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.d,$(SRCS))
+SRCS = $(wildcard $(SRCDIR)/*.C)
+OBJS = $(patsubst $(SRCDIR)/%.C,$(BUILDDIR)/%.o,$(SRCS))
+DEPS = $(patsubst $(SRCDIR)/%.C,$(BUILDDIR)/%.d,$(SRCS))
 
 .PHONY: clean
 
@@ -19,7 +19,7 @@ $(LIBDIR)/$(LIBCONF): $(OBJS)
 	ar rc $@ $^
 	ranlib $@
 
-$(BUILDDIR)/%.o : $(SRCDIR)/%.cpp
+$(BUILDDIR)/%.o : $(SRCDIR)/%.C
 	@mkdir -p $(BUILDDIR)
 	$(CXX) $(CXXFLAGS) $(ROOTFLAGS) -MMD -MF $(BUILDDIR)/$(*F).d $< -c -o $@
 
