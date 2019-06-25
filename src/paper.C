@@ -45,7 +45,9 @@ void paper::draw(std::string const& ext) {
 
         for (int64_t i = 1; i <= _size; ++i) {
             canvas->cd(i);
-            draw_pad(description, i);
+            auto associates = associated(i);
+            draw_pad(associates, i);
+            draw_legend(associates, description);
         }
     }
 
@@ -60,7 +62,9 @@ void paper::split(std::string const& ext) const {
     for (int64_t i = 1; i <= _size; ++i) {
         TCanvas* c = new TCanvas(std::to_string(i).data(), "", 400, 400);
 
-        draw_pad(description, i);
+        auto associates = associated(i);
+        draw_pad(associates, i);
+        draw_legend(associates, description);
 
         c->SaveAs((_tag + "_p"s + std::to_string(i) + "."s + ext).data());
         c->Delete();
@@ -106,8 +110,7 @@ std::vector<TObject*> paper::associated(int64_t index) const {
     return associates;
 }
 
-void paper::draw_pad(auto const& description, int64_t index) const {
-    auto associates = associated(index);
+void paper::draw_pad(auto const& associates, int64_t index) const {
     for (auto const& obj : associates) {
         apply(obj, _f);
         apply(obj, _g);
@@ -117,12 +120,10 @@ void paper::draw_pad(auto const& description, int64_t index) const {
         for (auto const& a : _a)
             apply(a, index);
     }
-
-    draw_legend(description, associates);
 }
 
-void paper::draw_legend(auto const& description,
-                        auto const& associates) const {
+void paper::draw_legend(auto const& associates,
+                        auto const& description) const {
     auto xy = _l ? _l() : std::array<float, 4>{ 0.5, 0.9, 0.87, 0.04 };
     xy[3] = xy[2] - associates.size() * xy[3];
 

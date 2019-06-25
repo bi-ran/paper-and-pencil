@@ -87,9 +87,9 @@ class paper {
 
     std::vector<TObject*> associated(int64_t index) const;
 
-    void draw_pad(auto const& description, int64_t index) const;
+    void draw_pad(auto const& associates, int64_t index) const;
 
-    void draw_legend(auto const& description, auto const& associates) const;
+    void draw_legend(auto const& associates, auto const& description) const;
 
     std::string const _tag;
     int64_t _size;
