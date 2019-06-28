@@ -36,7 +36,8 @@ void paper::draw(std::string const& ext) {
     using namespace std::literals::string_literals;
 
     if (canvas == nullptr) {
-        auto description = _pencil->description();
+        auto description = _pencil ? _pencil->description()
+            : std::map<TObject* const, std::string>();
 
         layout();
 
@@ -57,7 +58,8 @@ void paper::draw(std::string const& ext) {
 void paper::split(std::string const& ext) const {
     using namespace std::literals::string_literals;
 
-    auto description = _pencil->description();
+    auto description = _pencil ? _pencil->description()
+        : std::map<TObject* const, std::string>();
 
     for (int64_t i = 1; i <= _size; ++i) {
         TCanvas* c = new TCanvas(std::to_string(i).data(), "", 400, 400);
