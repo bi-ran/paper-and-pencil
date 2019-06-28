@@ -7,7 +7,7 @@
 #include "TGraph.h"
 #include "TH1.h"
 
-static const std::vector<int32_t> colours = {
+extern const std::vector<int32_t> colours = {
     TColor::GetColor("#515151"),
     TColor::GetColor("#f2777a"),
     TColor::GetColor("#f99157"),
@@ -17,8 +17,8 @@ static const std::vector<int32_t> colours = {
     TColor::GetColor("#9999cc"),
 };
 
-static const std::vector<int32_t> solid = { 20, 21, 22, 23, 29, 41 };
-static const std::vector<int32_t> open  = { 24, 25, 26, 32, 30, 40 };
+extern const std::vector<int32_t> msolid = { 20, 21, 22, 23, 29, 41 };
+extern const std::vector<int32_t> mopen  = { 24, 25, 26, 32, 30, 40 };
 
 void pencil::set_binary(std::string const& label) {
     binary = categories[label][0];
@@ -40,7 +40,7 @@ void pencil::operator()(T* const obj, U<int64_t> const& attrs) const {
     }
 
     int32_t colour = colours[colour_index];
-    int32_t marker = (*(marker_type ? &open : &solid))[marker_index];
+    int32_t marker = (*(marker_type ? &mopen : &msolid))[marker_index];
 
     apply<TH1>(obj, colour, marker);
     apply<TGraph>(obj, colour, marker);

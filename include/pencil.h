@@ -8,6 +8,10 @@
 
 #include "TObject.h"
 
+extern const std::vector<int32_t> colours;
+extern const std::vector<int32_t> msolid;
+extern const std::vector<int32_t> mopen;
+
 class pencil {
   public:
     pencil() : binary(-1) { }
