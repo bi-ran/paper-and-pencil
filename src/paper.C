@@ -19,6 +19,12 @@ void paper::stack(TObject* const object) {
     stack(_size, object);
 }
 
+void paper::adjust(TObject* const object, std::string const& dopt,
+                   std::string const& lopt) {
+    if (!dopt.empty()) { dopts[object] = dopt; }
+    if (!lopt.empty()) { lopts[object] = lopt; }
+}
+
 void paper::divide(int64_t cols, int64_t rows) {
     _cols = cols;
     _rows = rows;
@@ -113,10 +119,16 @@ std::vector<TObject*> paper::associated(int64_t index) const {
 }
 
 void paper::draw_pad(auto const& associates, int64_t index) const {
+    using namespace std::literals::string_literals;
+
     for (auto const& obj : associates) {
         apply(obj, _f);
         apply(obj, _g);
-        obj->Draw("same p e");
+
+        auto it = dopts.find(obj);
+        auto opt = (it != dopts.end()) ? it->second : "pe"s;
+        obj->Draw(("same "s + opt).data());
+
         apply(_d);
 
         for (auto const& a : _a)
@@ -126,6 +138,8 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
 
 void paper::draw_legend(auto const& associates,
                         auto const& description) const {
+    using namespace std::literals::string_literals;
+
     if (_flags & flags::key) { return; }
 
     auto xy = _l ? _l() : std::array<float, 4>{ 0.5, 0.9, 0.87, 0.04 };
@@ -135,10 +149,13 @@ void paper::draw_legend(auto const& associates,
     apply(l, _s);
 
     for (auto const& obj : associates) {
-        auto it = description.find(obj);
-        auto desc = it != std::end(description) ? it->second
+        auto itd = description.find(obj);
+        auto desc = itd != std::end(description) ? itd->second
             : std::string(obj->GetName());
-        l->AddEntry(obj, desc.data(), "pl");
+
+        auto itl = lopts.find(obj);
+        auto opt = (itl != lopts.end()) ? itl->second : "pl"s;
+        l->AddEntry(obj, desc.data(), opt.data());
     }
 
     l->Draw();

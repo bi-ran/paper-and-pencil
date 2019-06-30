@@ -5,6 +5,7 @@
 #include <functional>
 #include <numeric>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "TCanvas.h"
@@ -60,6 +61,9 @@ class paper {
     void stack(TObject* const object, T const&... adjectives) {
         stack(object); _pencil->describe(object, adjectives...); }
 
+    void adjust(TObject* const object, std::string const& dopt,
+                std::string const& lopt);
+
     void divide(int64_t cols, int64_t rows);
 
     template <typename... T>
@@ -110,6 +114,9 @@ class paper {
 
     std::vector<TObject*> objects;
     std::vector<int64_t> indices;
+
+    std::unordered_map<TObject*, std::string> dopts;
+    std::unordered_map<TObject*, std::string> lopts;
 
     std::function<void()> _d;
     std::function<void(TH1*)> _f;
