@@ -3,6 +3,7 @@
 
 #include <array>
 #include <functional>
+#include <numeric>
 #include <string>
 #include <vector>
 
@@ -37,6 +38,8 @@ class paper {
     paper& operator=(paper const&) = delete;
     ~paper() = default;
 
+    enum flags { key = 1 << 0 };
+
     void add();
 
     void stack(int64_t index, TObject* const object);
@@ -58,6 +61,13 @@ class paper {
         stack(object); _pencil->describe(object, adjectives...); }
 
     void divide(int64_t cols, int64_t rows);
+
+    template <typename... T>
+    void set(T... options) {
+        auto args = { options... };
+        _flags = std::accumulate(std::begin(args), std::end(args),
+                                 0, std::logical_or<int64_t>());
+    }
 
     void decorate(std::function<void()> d)                { _d = d; }
     void format(std::function<void(TH1*)> f)              { _f = f; }
@@ -95,6 +105,8 @@ class paper {
     int64_t _size;
     int64_t _cols;
     int64_t _rows;
+
+    uint64_t _flags;
 
     std::vector<TObject*> objects;
     std::vector<int64_t> indices;

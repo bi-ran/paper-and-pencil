@@ -126,6 +126,8 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
 
 void paper::draw_legend(auto const& associates,
                         auto const& description) const {
+    if (_flags & flags::key) { return; }
+
     auto xy = _l ? _l() : std::array<float, 4>{ 0.5, 0.9, 0.87, 0.04 };
     xy[3] = xy[2] - associates.size() * xy[3];
 
