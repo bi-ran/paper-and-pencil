@@ -6,8 +6,7 @@
 void paper::add() { ++_size; }
 
 void paper::stack(int64_t index, TObject* const object) {
-    objects.push_back(object);
-    indices.push_back(index);
+    objects[object] = index;
 }
 
 void paper::add(TObject* const object) {
@@ -111,9 +110,9 @@ void paper::layout() {
 
 std::vector<TObject*> paper::associated(int64_t index) const {
     std::vector<TObject*> associates;
-    for (int64_t j = 0; j < static_cast<int64_t>(objects.size()); ++j)
-        if (indices[j] == index)
-            associates.push_back(objects[j]);
+    for (auto const& obj : objects)
+        if (obj.second == index)
+            associates.push_back(obj.first);
 
     return associates;
 }

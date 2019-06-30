@@ -27,13 +27,13 @@ class paper {
           canvas(nullptr) { }
 
     paper(std::string const& tag)
-        : paper(tag, 0, 0, 0) { }
+        : paper(tag, nullptr, 0, 0) { }
 
     paper(std::string const& tag, pencil* p)
         : paper(tag, p, 0, 0) { }
 
     paper(std::string const& tag, int64_t cols, int64_t rows)
-        : paper(tag, 0, cols, rows) { }
+        : paper(tag, nullptr, cols, rows) { }
 
     paper(paper const&) = delete;
     paper& operator=(paper const&) = delete;
@@ -112,9 +112,7 @@ class paper {
 
     uint64_t _flags;
 
-    std::vector<TObject*> objects;
-    std::vector<int64_t> indices;
-
+    std::unordered_map<TObject*, std::string> objects;
     std::unordered_map<TObject*, std::string> dopts;
     std::unordered_map<TObject*, std::string> lopts;
 
