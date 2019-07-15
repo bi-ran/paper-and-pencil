@@ -141,16 +141,21 @@ void paper::draw_legend(auto const& associates,
 
     if (_flags & flags::key) { return; }
 
+    int64_t count = 0;
+    for (auto const& obj : associates)
+        if (description.find(obj) != std::end(description))
+            ++count;
+
     auto xy = _l ? _l() : std::array<float, 4>{ 0.5, 0.9, 0.87, 0.04 };
-    xy[3] = xy[2] - associates.size() * xy[3];
+    xy[3] = xy[2] - count * xy[3];
 
     TLegend* l = new TLegend(xy[0], xy[3], xy[1], xy[2]);
     apply(l, _s);
 
     for (auto const& obj : associates) {
         auto itd = description.find(obj);
-        auto desc = itd != std::end(description) ? itd->second
-            : std::string(obj->GetName());
+        if (itd == std::end(description)) { continue; }
+        auto desc = itd->second;
 
         auto itl = lopts.find(obj);
         auto opt = (itl != lopts.end()) ? itl->second : "pl"s;
