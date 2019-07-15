@@ -40,6 +40,8 @@ class pencil {
 
     void alias(std::string const& label, std::string const& formal);
 
+    void ditto(std::string const& adjective, std::string const& target);
+
     std::map<TObject* const, std::string> description() const;
 
   private:
@@ -58,6 +60,7 @@ class pencil {
     std::map<std::string, std::array<int64_t, 2>> attributes;
 
     std::map<std::string, std::string> aliases;
+    std::map<std::string, std::string> dittoes;
 
     std::vector<int64_t> features;
     int64_t binary;

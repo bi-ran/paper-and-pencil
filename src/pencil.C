@@ -26,16 +26,29 @@ void pencil::set_binary(std::string const& label) {
 
 template <typename T, template <typename...> class U>
 void pencil::operator()(T* const obj, U<int64_t> const& attrs) const {
+    std::vector<int64_t> indices(std::begin(attrs), std::end(attrs));
+
+    for (auto const& pair : dittoes) {
+        auto iorig = attributes.find(pair.first);
+        auto iattr = attributes.find(pair.second);
+
+        if (iorig != std::end(attributes) && iattr != std::end(attributes)) {
+            auto orig = iorig->second;
+            auto attr = iattr->second;
+            if (orig[0] == attr[0] && attrs[orig[0]] == orig[1])
+                indices[attr[0]] = attr[1];
+        }
+    }
+
     int64_t colour_index = 0;
     int64_t marker_index = 0;
     int64_t marker_type = 0;
 
-    std::vector<int64_t> attributes(std::begin(attrs), std::end(attrs));
     for (int64_t i = 0; i < static_cast<int64_t>(features.size()); ++i) {
         switch (features[i]) {
-            case -1: marker_type = attributes[i]; break;
-            case 0: colour_index = attributes[i]; break;
-            case 1: marker_index = attributes[i]; break;
+            case -1: marker_type = indices[i]; break;
+            case 0: colour_index = indices[i]; break;
+            case 1: marker_index = indices[i]; break;
         }
     }
 
@@ -65,6 +78,10 @@ void pencil::sketch() {
 
 void pencil::alias(std::string const& label, std::string const& formal) {
     aliases[label] = formal;
+}
+
+void pencil::ditto(std::string const& adjective, std::string const& target) {
+    dittoes[adjective] = target;
 }
 
 std::map<TObject* const, std::string> pencil::description() const {
