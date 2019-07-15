@@ -3,6 +3,7 @@
 
 #include <array>
 #include <functional>
+#include <map>
 #include <numeric>
 #include <string>
 #include <unordered_map>
@@ -112,7 +113,8 @@ class paper {
 
     uint64_t _flags;
 
-    std::unordered_map<TObject*, std::string> objects;
+    std::map<TObject*, std::string> objects;
+
     std::unordered_map<TObject*, std::string> dopts;
     std::unordered_map<TObject*, std::string> lopts;
 
