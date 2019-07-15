@@ -81,12 +81,14 @@ std::map<TObject* const, std::string> pencil::description() const {
         std::string descriptive_string;
         auto const& indices = obj.second;
         for (int64_t i = 0; i < static_cast<int64_t>(indices.size()); ++i) {
-            if (i) { descriptive_string += ", "s; }
             auto attr = reverse[{ i, indices[i] }];
             auto it = aliases.find(attr);
             if (it != std::end(aliases))
                 attr = it->second;
-            descriptive_string += attr;
+            if (!attr.empty()) {
+                if (i) { descriptive_string += ", "s; }
+                descriptive_string += attr;
+            }
         }
 
         desc[obj.first] = descriptive_string;
