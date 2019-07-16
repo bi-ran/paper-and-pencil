@@ -5,7 +5,6 @@
 
 #include "TColor.h"
 #include "TGraph.h"
-#include "TH1.h"
 
 extern const std::vector<int32_t> colours = {
     TColor::GetColor("#515151"),
@@ -37,6 +36,17 @@ void pencil::operator()(T* const obj, U<int64_t> const& attrs) const {
             auto attr = iattr->second;
             if (orig[0] == attr[0] && attrs[orig[0]] == orig[1])
                 indices[attr[0]] = attr[1];
+        }
+    }
+
+    for (auto const& pair : styles) {
+        auto const& attr = attributes.find(pair.first)->second;
+        if (indices[attr[0]] == attr[1]) {
+            auto style = styles.find(pair.first)->second;
+            if (obj->InheritsFrom(TH1::Class())) {
+                style(static_cast<TH1*>(obj));
+                return;
+            }
         }
     }
 
@@ -82,6 +92,10 @@ void pencil::alias(std::string const& label, std::string const& formal) {
 
 void pencil::ditto(std::string const& adjective, std::string const& target) {
     dittoes[adjective] = target;
+}
+
+void pencil::style(std::string const& label, std::function<void(TH1*)> style) {
+    styles[label] = style;
 }
 
 std::map<TObject* const, std::string> pencil::description() const {

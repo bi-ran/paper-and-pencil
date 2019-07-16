@@ -2,10 +2,12 @@
 #define PENCIL_H
 
 #include <array>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
+#include "TH1.h"
 #include "TObject.h"
 
 extern const std::vector<int32_t> colours;
@@ -42,6 +44,8 @@ class pencil {
 
     void ditto(std::string const& adjective, std::string const& target);
 
+    void style(std::string const& label, std::function<void(TH1*)> style);
+
     std::map<TObject* const, std::string> description() const;
 
   private:
@@ -61,6 +65,8 @@ class pencil {
 
     std::map<std::string, std::string> aliases;
     std::map<std::string, std::string> dittoes;
+
+    std::map<std::string, std::function<void(TH1*)>> styles;
 
     std::vector<int64_t> features;
     int64_t binary;
