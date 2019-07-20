@@ -69,9 +69,7 @@ class paper {
 
     template <typename... T>
     void set(T... options) {
-        auto args = { options... };
-        _flags = std::accumulate(std::begin(args), std::end(args),
-                                 0, std::logical_or<int64_t>());
+        for (auto opt : { options... }) { _flags = _flags ^ opt; }
     }
 
     void decorate(std::function<void()> d)                { _d = d; }
@@ -111,7 +109,7 @@ class paper {
     int64_t _cols;
     int64_t _rows;
 
-    uint64_t _flags;
+    uint64_t _flags = 0;
 
     std::map<TObject*, std::string> objects;
 
