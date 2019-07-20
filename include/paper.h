@@ -40,7 +40,7 @@ class paper {
     paper& operator=(paper const&) = delete;
     ~paper() = default;
 
-    enum flags { key = 1 << 0 };
+    enum flags { key = 1 << 0, logx = 1 << 1, logy = 1 << 2 };
 
     void add();
 

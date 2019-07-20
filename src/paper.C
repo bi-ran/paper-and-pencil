@@ -133,6 +133,9 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
         for (auto const& a : _a)
             apply(a, index);
     }
+
+    if (_flags & flags::logx) { gPad->SetLogx(); }
+    if (_flags & flags::logy) { gPad->SetLogy(); }
 }
 
 void paper::draw_legend(auto const& associates,
