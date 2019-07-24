@@ -33,6 +33,10 @@ void paper::accessory(std::function<void(int64_t)> a) {
     _a.push_back(a);
 }
 
+void paper::jewellery(std::function<void(TH1*, int64_t)> j) {
+    _j.push_back(j);
+}
+
 void paper::link(pencil* pencil) {
     _pencil = pencil;
 }
@@ -89,9 +93,16 @@ void paper::apply(std::function<T> f, int64_t index) const {
 }
 
 template <typename T>
-void paper::apply(TObject* const obj, std::function<void(T*)> f) const {
+void paper::apply(std::function<void(T*)> f, TObject* const obj) const {
     if (f && obj->InheritsFrom(T::Class()))
         f(static_cast<T*>(obj));
+}
+
+template <typename T>
+void paper::apply(std::function<void(T*, int64_t)> f, TObject* const obj,
+                  int64_t index) const {
+    if (f && obj->InheritsFrom(T::Class()))
+        f(static_cast<T*>(obj), index);
 }
 
 void paper::layout() {
@@ -121,8 +132,8 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
     using namespace std::literals::string_literals;
 
     for (auto const& obj : associates) {
-        apply(obj, _f);
-        apply(obj, _g);
+        apply(_f, obj);
+        apply(_g, obj);
 
         auto it = dopts.find(obj);
         auto opt = (it != dopts.end()) ? it->second : "pe"s;
@@ -132,6 +143,8 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
 
         for (auto const& a : _a)
             apply(a, index);
+        for (auto const& j : _j)
+            apply(j, obj, index);
     }
 
     if (_flags & flags::logx) { gPad->SetLogx(); }
@@ -153,7 +166,7 @@ void paper::draw_legend(auto const& associates,
     xy[3] = xy[2] - count * xy[3];
 
     TLegend* l = new TLegend(xy[0], xy[3], xy[1], xy[2]);
-    apply(l, _s);
+    apply(_s, l);
 
     for (auto const& obj : associates) {
         auto itd = description.find(obj);

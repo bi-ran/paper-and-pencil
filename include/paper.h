@@ -79,6 +79,7 @@ class paper {
     void style(std::function<void(TLegend*)> s)           { _s = s; }
 
     void accessory(std::function<void(int64_t)> a);
+    void jewellery(std::function<void(TH1*, int64_t)> j);
 
     void link(pencil* pencil);
 
@@ -88,13 +89,17 @@ class paper {
 
   private:
     template <typename T>
-    void apply(TObject* const obj, std::function<void(T*)> f) const;
-
-    template <typename T>
     void apply(std::function<T> f) const;
 
     template <typename T>
     void apply(std::function<T> f, int64_t index) const;
+
+    template <typename T>
+    void apply(std::function<void(T*)> f, TObject* const obj) const;
+
+    template <typename T>
+    void apply(std::function<void(T*, int64_t)> f, TObject* const obj,
+               int64_t index) const;
 
     void layout();
 
@@ -123,6 +128,7 @@ class paper {
     std::function<void(TLegend*)> _s;
 
     std::vector<std::function<void(int64_t)>> _a;
+    std::vector<std::function<void(TH1*, int64_t)>> _j;
 
     pencil* _pencil;
 
