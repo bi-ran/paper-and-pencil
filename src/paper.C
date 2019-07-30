@@ -6,6 +6,7 @@
 void paper::add() { ++_size; }
 
 void paper::stack(int64_t index, TObject* const object) {
+    order.push_back(object);
     objects[object] = index;
 }
 
@@ -121,9 +122,9 @@ void paper::layout() {
 
 std::vector<TObject*> paper::associated(int64_t index) const {
     std::vector<TObject*> associates;
-    for (auto const& obj : objects)
-        if (obj.second == index)
-            associates.push_back(obj.first);
+    for (auto const& obj : order)
+        if (objects.find(obj)->second == index)
+            associates.push_back(obj);
 
     return associates;
 }

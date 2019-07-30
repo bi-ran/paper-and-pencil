@@ -116,7 +116,8 @@ class paper {
 
     uint64_t _flags = 0;
 
-    std::map<TObject*, std::string> objects;
+    std::vector<TObject*> order;
+    std::map<TObject*, int64_t> objects;
 
     std::unordered_map<TObject*, std::string> dopts;
     std::unordered_map<TObject*, std::string> lopts;
