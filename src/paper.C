@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+using namespace std::literals::string_literals;
+
 void paper::add() { ++_size; }
 
 void paper::stack(int64_t index, TObject* const object) {
@@ -43,8 +45,6 @@ void paper::link(pencil* pencil) {
 }
 
 void paper::draw(std::string const& ext) {
-    using namespace std::literals::string_literals;
-
     if (canvas == nullptr) {
         auto description = _pencil ? _pencil->description()
             : std::map<TObject* const, std::string>();
@@ -66,8 +66,6 @@ void paper::draw(std::string const& ext) {
 }
 
 void paper::split(std::string const& ext) const {
-    using namespace std::literals::string_literals;
-
     auto description = _pencil ? _pencil->description()
         : std::map<TObject* const, std::string>();
 
@@ -79,7 +77,7 @@ void paper::split(std::string const& ext) const {
         draw_legend(associates, description);
 
         c->SaveAs((_tag + "_p"s + std::to_string(i) + "."s + ext).data());
-        c->Delete();
+        delete c;
     }
 }
 
@@ -130,8 +128,6 @@ std::vector<TObject*> paper::associated(int64_t index) const {
 }
 
 void paper::draw_pad(auto const& associates, int64_t index) const {
-    using namespace std::literals::string_literals;
-
     for (auto const& obj : associates) {
         apply(_f, obj);
         apply(_g, obj);
@@ -154,8 +150,6 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
 
 void paper::draw_legend(auto const& associates,
                         auto const& description) const {
-    using namespace std::literals::string_literals;
-
     if (_flags & flags::key) { return; }
 
     int64_t count = 0;

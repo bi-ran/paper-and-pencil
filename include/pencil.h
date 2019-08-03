@@ -10,10 +10,6 @@
 #include "TH1.h"
 #include "TObject.h"
 
-extern const std::vector<int32_t> colours;
-extern const std::vector<int32_t> msolid;
-extern const std::vector<int32_t> mopen;
-
 class pencil {
   public:
     pencil() : binary(-1) { }
@@ -41,9 +37,7 @@ class pencil {
     void sketch();
 
     void alias(std::string const& label, std::string const& formal);
-
-    void ditto(std::string const& adjective, std::string const& target);
-
+    void ditto(std::string const& label, std::string const& target);
     void style(std::string const& label, std::function<void(TH1*)> style);
 
     std::map<TObject* const, std::string> description() const;

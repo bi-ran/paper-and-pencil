@@ -6,7 +6,9 @@
 #include "TColor.h"
 #include "TGraph.h"
 
-extern const std::vector<int32_t> colours = {
+using namespace std::literals::string_literals;
+
+static std::vector<int32_t> const colours = {
     TColor::GetColor("#515151"),
     TColor::GetColor("#f2777a"),
     TColor::GetColor("#f99157"),
@@ -16,8 +18,8 @@ extern const std::vector<int32_t> colours = {
     TColor::GetColor("#9999cc"),
 };
 
-extern const std::vector<int32_t> msolid = { 20, 21, 22, 23, 29, 41 };
-extern const std::vector<int32_t> mopen  = { 24, 25, 26, 32, 30, 40 };
+static std::vector<int32_t> const msolid = { 20, 21, 22, 23, 29, 41 };
+static std::vector<int32_t> const mopen  = { 24, 25, 26, 32, 30, 40 };
 
 void pencil::set_binary(std::string const& label) {
     binary = categories[label][0];
@@ -90,8 +92,8 @@ void pencil::alias(std::string const& label, std::string const& formal) {
     aliases[label] = formal;
 }
 
-void pencil::ditto(std::string const& adjective, std::string const& target) {
-    dittoes[adjective] = target;
+void pencil::ditto(std::string const& label, std::string const& target) {
+    dittoes[label] = target;
 }
 
 void pencil::style(std::string const& label, std::function<void(TH1*)> style) {
@@ -99,8 +101,6 @@ void pencil::style(std::string const& label, std::function<void(TH1*)> style) {
 }
 
 std::map<TObject* const, std::string> pencil::description() const {
-    using namespace std::literals::string_literals;
-
     std::map<TObject* const, std::string> desc;
 
     /* build reverse map (intended to be called only once!) */
