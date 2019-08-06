@@ -52,7 +52,7 @@ void paper::draw(std::string const& ext) {
         layout();
 
         canvas = new TCanvas(_tag.data(), "", 400 * _cols, 400 * _rows);
-        canvas->Divide(_cols, _rows, 0, 0);
+        canvas->Divide(_cols, _rows, 0.01 / _cols, 0.01 / _rows);
 
         for (int64_t i = 1; i <= _size; ++i) {
             canvas->cd(i);
