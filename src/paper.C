@@ -7,6 +7,8 @@ using namespace std::literals::string_literals;
 
 void paper::add() { ++_size; }
 
+void paper::add(int64_t size) { _size += size; }
+
 void paper::stack(int64_t index, TObject* const object) {
     order.push_back(object);
     objects[object] = index;
@@ -21,15 +23,15 @@ void paper::stack(TObject* const object) {
     stack(_size, object);
 }
 
+void paper::divide(int64_t cols, int64_t rows) {
+    _cols = cols;
+    _rows = rows;
+}
+
 void paper::adjust(TObject* const object, std::string const& dopt,
                    std::string const& lopt) {
     if (!dopt.empty()) { dopts[object] = dopt; }
     if (!lopt.empty()) { lopts[object] = lopt; }
-}
-
-void paper::divide(int64_t cols, int64_t rows) {
-    _cols = cols;
-    _rows = rows;
 }
 
 void paper::accessory(std::function<void(int64_t)> a) {

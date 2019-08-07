@@ -43,6 +43,7 @@ class paper {
     enum flags { key = 1 << 0, logx = 1 << 1, logy = 1 << 2 };
 
     void add();
+    void add(int64_t size);
 
     void stack(int64_t index, TObject* const object);
 
@@ -62,15 +63,15 @@ class paper {
     void stack(TObject* const object, T const&... adjectives) {
         stack(object); _pencil->describe(object, adjectives...); }
 
-    void adjust(TObject* const object, std::string const& dopt,
-                std::string const& lopt);
-
     void divide(int64_t cols, int64_t rows);
 
     template <typename... T>
     void set(T... options) {
         for (auto opt : { options... }) { _flags = _flags ^ opt; }
     }
+
+    void adjust(TObject* const object, std::string const& dopt,
+                std::string const& lopt);
 
     void decorate(std::function<void()> d)                { _d = d; }
     void format(std::function<void(TH1*)> f)              { _f = f; }
