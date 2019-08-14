@@ -45,6 +45,10 @@ class pencil {
   private:
     void categorise(std::string const& label, std::string const& item);
 
+    template <template <typename...> class T>
+    void categorise(std::string const& label, T<std::string> const& items) {
+        for (auto const& item : items) { categorise(label, item); } }
+
     void mark(TObject* const object, std::string const& adjective);
 
     void set_features(int64_t dims);
