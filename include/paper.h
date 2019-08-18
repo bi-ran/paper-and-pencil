@@ -79,6 +79,7 @@ class paper {
     void legend(std::function<std::array<float, 4>()> l)  { _l = l; }
     void style(std::function<void(TLegend*)> s)           { _s = s; }
 
+    void ornaments(std::function<void()> o);
     void accessory(std::function<void(int64_t)> a);
     void jewellery(std::function<void(TH1*, int64_t)> j);
 
@@ -129,6 +130,7 @@ class paper {
     std::function<std::array<float, 4>()> _l;
     std::function<void(TLegend*)> _s;
 
+    std::vector<std::function<void()>> _o;
     std::vector<std::function<void(int64_t)>> _a;
     std::vector<std::function<void(TH1*, int64_t)>> _j;
 

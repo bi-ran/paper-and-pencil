@@ -34,6 +34,10 @@ void paper::adjust(TObject* const object, std::string const& dopt,
     if (!lopt.empty()) { lopts[object] = lopt; }
 }
 
+void paper::ornaments(std::function<void()> o) {
+    _o.push_back(o);
+}
+
 void paper::accessory(std::function<void(int64_t)> a) {
     _a.push_back(a);
 }
@@ -140,6 +144,8 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
 
         apply(_d);
 
+        for (auto const& o : _o)
+            apply(o);
         for (auto const& a : _a)
             apply(a, index);
         for (auto const& j : _j)
