@@ -133,7 +133,8 @@ std::vector<TObject*> paper::associated(int64_t index) const {
     return associates;
 }
 
-void paper::draw_pad(auto const& associates, int64_t index) const {
+void paper::draw_pad(std::vector<TObject*> const& associates,
+                     int64_t index) const {
     for (auto const& obj : associates) {
         apply(_f, obj);
         apply(_g, obj);
@@ -156,8 +157,9 @@ void paper::draw_pad(auto const& associates, int64_t index) const {
     if (_flags & flags::logy) { gPad->SetLogy(); }
 }
 
-void paper::draw_legend(auto const& associates,
-                        auto const& description) const {
+void paper::draw_legend(std::vector<TObject*> const& associates,
+                        std::map<TObject* const,
+                                 std::string> const& description) const {
     if (_flags & flags::key) { return; }
 
     int64_t count = 0;
